@@ -10,32 +10,30 @@ def score(game):
     result = 0
     frame = 1
     in_first_half = True
+
     for i in range(len(game)):
-        if game[i] == '/':
-            result += 10 - last
+        if game[i] == '/': #ez benne van getvalueban! vmelyikből töröl. nem tud ez lenni a legelső karakter, ezért lehet a last
+            result += 10 - get_value(game[i - 1]) #EZ AZÉRT, HOGY /-NÉL AZ ELŐZŐ ÉRTÉKET TÖRÖLNI, MERT A / = 10
         else:
-            result += get_value(game[i])
-        # if not in_first_half:
-            # frame += 1
+            result += get_value(game[i]) #ez tkp mindenképp fog kelleni
+
         if frame < 10 and get_value(game[i]) == 10:
-            if game[i] == '/':
-                result += get_value(game[i+1])
-            elif game[i] == 'X' or game[i] == 'x':
-                result += get_value(game[i+1])
+            result += get_value(game[i + 1])
+            if game[i] == 'X' or game[i] == 'x':
                 if game[i+2] == '/':
-                    result += 10 - get_value(game[i+1])
+                    result += 10 - get_value(game[i+1]) #?????
                 else:
                     result += get_value(game[i+2])
-        last = get_value(game[i])
-        if not in_first_half:
+
+        if game[i] == 'X' or game[i] == 'x':
             frame += 1
-        if in_first_half:
+
+        elif in_first_half:
             in_first_half = False
         else:
-            in_first_half = True
-        if game[i] == 'X' or game[i] == 'x':
-            in_first_half = True
             frame += 1
+            in_first_half = True
+
     return result
 
 
