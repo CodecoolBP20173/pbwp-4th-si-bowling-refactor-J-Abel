@@ -31,10 +31,12 @@ def score(game):
 
 def ReducingResultIfSpare(outcome, iternumber, play):
     '''
-    If play[iternumber] is '/', outcome is reducing. (spare: 10 points for 2nd try, 1st try needs to be deleted. 10 points are done)
-    iternumber: integer;
-    play: string;
-    outcome: integer;
+    If play[iternumber] is '/', outcome is reducing.
+    (spare: 10 points for 2nd try, 1st try needs to be deleted. 10 points are previously done, not in this function)
+
+    iternumber: integer
+    play: string, list
+    outcome: integer
 
     Returns: outcome
     '''
@@ -46,11 +48,12 @@ def ReducingResultIfSpare(outcome, iternumber, play):
 
 
 def RaisingResultIfHighValues(iternumber, play, outcome, turn):
-    '''High values of 'play' raises the 'outcome' significantly
+    '''
+    High values of play[iternumber] raises the 'outcome' significantly
 
-    iternumber: integer;
-    play: string;
-    outcome: integer;
+    iternumber: integer
+    play: string, list
+    outcome: integer
     turn: integer
 
     Returns: outcome
