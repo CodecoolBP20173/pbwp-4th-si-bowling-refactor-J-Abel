@@ -12,6 +12,8 @@ def score(game):
     first_try = True
 
     for CharNumber in range(len(game)):
+        result += get_value(game[CharNumber])
+
         if frame < 10:
             result = RaisingResultIfHighValues(CharNumber, game, result, frame)
 
@@ -23,8 +25,6 @@ def score(game):
         else:
             first_try = True
             result = ReducingResultIfSpare(result, CharNumber, game)
-
-        result += get_value(game[CharNumber])
 
     return result
 
