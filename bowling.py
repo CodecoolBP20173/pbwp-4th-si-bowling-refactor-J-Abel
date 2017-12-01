@@ -11,30 +11,44 @@ def score(game):
     frame = 1
     first_try = True
 
-    for i in range(len(game)):
-        result += get_value(game[i])
-
-        if game[i] == '/': #ez benne van getvalueban! vmelyikből töröl. nem tud ez lenni a legelső karakter, ezért lehet a last
-            result -= get_value(game[i - 1])  # '/': 10 points for 2nd try, but 1st grade needs to be deleted
-
-        if frame < 10 and get_value(game[i]) == 10:
-            result += get_value(game[i + 1])
-            if x_or_X(game[i]):
-                if game[i+2] == '/':
-                    result += 10 - get_value(game[i+1]) #?????
-                else:
-                    result += get_value(game[i+2])
+    for CharNumber in range(len(game)):
+        if frame < 10:
+            result = RaisingResultIfHighValues(CharNumber, game, result, frame)
 
         frame += 1
         if first_try:
-            if not x_or_X(game[i]):
+            if not x_or_X(game[CharNumber]):  # If 'X', there is no second try
                 frame -= 1
                 first_try = False
         else:
             first_try = True
 
+            if game[CharNumber] == '/':
+                result -= get_value(game[CharNumber - 1])  # '/': 10 points for 2nd try, 1st try needs to be deleted
+
+        result += get_value(game[CharNumber])
+
     return result
 
+
+def RaisingResultIfHighValues(iternumber, play, outcome, turn):
+    '''High values of 'play' raises the 'outcome' significantly
+
+    iternumber: integer;
+    play: string;
+    outcome: integer;
+    turn: integer
+
+    Returns: outcome
+    '''
+
+    if get_value(play[iternumber]) == 10:
+        outcome += get_value(play[iternumber + 1])
+        if x_or_X(play[iternumber]):
+            outcome += get_value(play[iternumber + 2])
+            if play[iternumber + 2] == '/':
+                outcome -= get_value(play[iternumber + 1])
+    return outcome
 
 def get_value(char):
     '''
@@ -61,7 +75,7 @@ def get_value(char):
 
 def x_or_X(data):
     '''
-    Returns boolean if parameter is "x" or "X"
+    Returns True if parameter is "x" or "X" and False if not
 
     Arguments: string
 
