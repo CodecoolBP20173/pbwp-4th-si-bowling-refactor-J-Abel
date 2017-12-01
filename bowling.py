@@ -22,13 +22,27 @@ def score(game):
                 first_try = False
         else:
             first_try = True
-
-            if game[CharNumber] == '/':
-                result -= get_value(game[CharNumber - 1])  # '/': 10 points for 2nd try, 1st try needs to be deleted
+            result = ReducingResultIfSpare(result, CharNumber, game)
 
         result += get_value(game[CharNumber])
 
     return result
+
+
+def ReducingResultIfSpare(outcome, iternumber, play):
+    '''
+    If play[iternumber] is '/', outcome is reducing. (spare: 10 points for 2nd try, 1st try needs to be deleted. 10 points are done)
+    iternumber: integer;
+    play: string;
+    outcome: integer;
+
+    Returns: outcome
+    '''
+
+    if play[iternumber] == '/':
+        outcome -= get_value(play[iternumber - 1])
+
+    return outcome
 
 
 def RaisingResultIfHighValues(iternumber, play, outcome, turn):
@@ -46,9 +60,10 @@ def RaisingResultIfHighValues(iternumber, play, outcome, turn):
         outcome += get_value(play[iternumber + 1])
         if x_or_X(play[iternumber]):
             outcome += get_value(play[iternumber + 2])
-            if play[iternumber + 2] == '/':
-                outcome -= get_value(play[iternumber + 1])
+            outcome = ReducingResultIfSpare(outcome, iternumber + 2, play)
+
     return outcome
+
 
 def get_value(char):
     '''
